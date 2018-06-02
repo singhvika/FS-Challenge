@@ -31,7 +31,7 @@
 
               <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 text-right">
                 Add Images
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-js-ripple-effect" data-toggle="modal" data-target="#addImageModal">
                   <i class="material-icons">add</i>
                 </button>
               </div>
@@ -47,20 +47,11 @@
             </div>
 
             <div class="row card-body" id="imgs">
-              <div class="card col-xs-3 col-sm-3 col-md-3 col-lg-3 no-gutters">
 
-                  <img src="https://www.gettyimages.ie/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg" class="card-img-top" alt="Cinque Terre">
-                  <div class="card-body">
-                    <p class="card-text">Description</p>
-                    <a href="#" class="btn btn-primary">See Original Picture</a>
-                  </div>
-
-
-              </div>
             </div>
 
             <div class="row card-footer">
-              Total Images
+
             </div>
 
 
@@ -72,6 +63,153 @@
   </div>
 
 </div>
+
+<!-- popup modal window for adding new images -->
+
+<div class="modal" id="addImageModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Enter a valid image url</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="imgUrl">Enter img url</label>
+          <input type="text" class="form-control" id="imgUrl"/>
+
+          <label for="imgDesc">Enter img description</label>
+          <input type="text" class="form-control" id="imgDesc"/>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="addImageButton">Add Image</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+
+function refreshImages(){
+  $(document).ready(function(){
+
+  var imgContainer = document.getElementById("imgs");
+  while(imgContainer.firstChild){
+    imgContainer.removeChild(imgContainer.firstChild);
+
+  }
+  console.log("removed existing");
+
+  let imgRecords = getImgRecords();
+  imgRecords.forEach(function(record){
+    let imgFrame = document.createElement('div');
+    imgFrame.className='card col-xs-3 col-sm-3 col-md-3 col-lg-3 no-gutters';
+    imgFrame.innerHTML= `<img src=\"${record.url}\" class=\"card-img-top\" alt=\"Cinque Terre\">
+    <div class=\"card-body\">
+      <p class=\"card-text\">${record.desc}</p>
+      <a href=\"${record.url}\" class=\"btn btn-primary\">Original Picture</a>
+      <button name="imgDeleteButton" class=\"btn btn-danger deleteImg\" data-img-url="${record.url}" onClick="deleteImage('${record.url}')">Delete</button>
+    </div>`
+    imgContainer.appendChild(imgFrame);
+  })
+
+
+
+  })
+}
+
+
+
+function getImgRecords(){
+  let imgRecords;
+  if ( localStorage.getItem("imgRecords")!==null)
+  {
+    imgRecords = JSON.parse(localStorage.getItem("imgRecords"));
+
+  }
+  else {
+    imgRecords = []
+  }
+
+  return imgRecords;
+}
+
+
+
+//function to add new Image
+
+$(document).ready(function(){
+  document.getElementById("addImageButton").addEventListener("click", function(){
+    console.log(document.getElementById("imgUrl").value);
+    let upUrl = document.getElementById("imgUrl").value;
+    let description = document.getElementById("imgDesc").value;
+
+    if(upUrl.length!==0 && description.length!==0){
+
+      let imgRecords = getImgRecords();
+
+
+
+
+      let record = {
+        url: upUrl,
+        desc: description
+      }
+
+      let filteredRecords = imgRecords.filter((record) => upUrl === record.url);
+
+      if (filteredRecords.length === 0)
+      {
+        imgRecords.push(record);
+        localStorage.setItem("imgRecords", JSON.stringify(imgRecords));
+        refreshImages();
+      }
+      else {
+        alert("duplicate image");
+      }
+
+
+
+      }else {
+        alert("Please enter Image URL and Description");
+      }
+  })
+})
+
+
+
+
+
+
+// delete image function
+
+$(document).ready(function(){
+  refreshImages();
+})
+
+
+
+
+function deleteImage(imgUrl) {
+console.log(imgUrl);
+var imgRecords = getImgRecords();
+var filteredRecords = imgRecords.filter((record) => record.url !==imgUrl);
+localStorage.setItem('imgRecords',JSON.stringify(filteredRecords));
+refreshImages();
+
+}
+
+</script>
+
 
 </body>
 </html>
