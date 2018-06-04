@@ -1,6 +1,10 @@
-<script>
 
-function refreshImages(){
+$(document).ready(function(){
+  refreshImages(getImgRecords());
+})
+
+
+function refreshImages(imgRecords){
   $(document).ready(function(){
 
   var imgContainer = document.getElementById("imgs");
@@ -10,7 +14,7 @@ function refreshImages(){
   }
   console.log("removed existing");
 
-  let imgRecords = getImgRecords();
+  //let imgRecords = getImgRecords();
   imgRecords.forEach(function(record){
     let imgFrame = document.createElement('div');
     imgFrame.className='card col-xs-3 col-sm-3 col-md-3 col-lg-3 no-gutters';
@@ -72,10 +76,16 @@ $(document).ready(function(){
       {
         imgRecords.push(record);
         localStorage.setItem("imgRecords", JSON.stringify(imgRecords));
-        refreshImages();
+        refreshImages(getImgRecords());
+        $('#addSuccess').show();
+        $('#addFailure').hide();
+        document.getElementById("imgDesc").value = '';
+        document.getElementById("imgUrl").value = '';
       }
       else {
-        alert("duplicate image");
+        $('#addSuccess').hide();
+        $('#addFailure').show();
+
       }
 
 
@@ -93,9 +103,7 @@ $(document).ready(function(){
 
 // delete image function
 
-$(document).ready(function(){
-  refreshImages();
-})
+
 
 
 
@@ -105,6 +113,34 @@ console.log(imgUrl);
 var imgRecords = getImgRecords();
 var filteredRecords = imgRecords.filter((record) => record.url !==imgUrl);
 localStorage.setItem('imgRecords',JSON.stringify(filteredRecords));
-refreshImages();
+refreshImages(getImgRecords());
 
 }
+
+
+
+//search function
+
+$('#searchBar').on('keyup', function(){
+  let searchString = $('#searchBar').val();
+console.log(`searchString: ${searchString}`);
+  if (searchString.length === 0)
+  {
+    refreshImages(getImgRecords());
+  }
+  else {
+    let imgRecords = getImgRecords();
+    let filteredRecords = imgRecords.filter((record) => {
+      if ((record.desc).indexOf(searchString) > -1)
+      {
+        return true;
+      }
+      else {
+        return false;
+      }
+    });
+    refreshImages(filteredRecords);
+  }
+
+
+})
