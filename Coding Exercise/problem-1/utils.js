@@ -63,15 +63,13 @@ let buildFinalFile = (fileNames, fileExtension) => {
    }
  }
  finalFileName  = finalFileName.concat(fileExtension);
- console.log(finalFileName);
- var outstream = new stream;
- outstream.readable = true;
- outstream.writable = true;
-
  for(let i=0;i<fileNames.length; i++)
  {
    let instream = fs.createReadStream(fileNames[i]);
-   var rl = readline.createInterface({
+   let outstream = new stream;
+   outstream.readable = true;
+   outstream.writable = true;
+   let rl = readline.createInterface({
    input: instream,
    output: outstream,
    terminal: false
@@ -86,15 +84,41 @@ let buildFinalFile = (fileNames, fileExtension) => {
    line = line.replace(/\$/g,'');
    if (line.length!==0)
    {
-     fs.appendFile(finalFileName,line+os.EOL, (err)=>{
-       if (err)
+     try{
+        fs.appendFileSync(finalFileName,line+os.EOL)
+     }
+     catch(err){
        console.log(err);
-       console.log(line);
-     })
+     }
+
    }
  });
 
+
+rl.on ('close', ()=>{
+  if (i===fileNames.length-1)
+  readAndDisplayFile(finalFileName);
+});
+
+
+
 }
+}
+
+
+let readAndDisplayFile = (fileName) =>
+{
+  console.log(fileName);
+  let outstream = new stream;
+  let instream = fs.createReadStream(fileName);
+  let rl = readline.createInterface({
+    input: instream
+  })
+
+  rl.on('line', (line) => {
+    let lineString = line.toString();
+    console.log(lineString);
+  })
 }
 
 

@@ -10,7 +10,7 @@ var inputComplete = false;
 var numberOfFiles;
 var fileNames = [];
 var fileExtension= '';
-const fileExtRegex = new RegExp('^.+\..+$');//
+const fileExtRegex = new RegExp(/^.+\..+$/);//
 
 
 
@@ -31,7 +31,6 @@ const fileExtRegex = new RegExp('^.+\..+$');//
     while (fileName === undefined )
     {
       let temp = readlineSync.question(`Enter Filename for file${i} with .* extension: `);
-      console.log(fileExtRegex.test(temp));
       if ( fileExtRegex.test(temp))
       {
 
