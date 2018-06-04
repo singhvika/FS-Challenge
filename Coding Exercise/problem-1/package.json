@@ -1,0 +1,14 @@
+{
+  "name": "problem-1",
+  "version": "1.0.0",
+  "description": "FS Challenege: Coding Exercise, Problem 1",
+  "main": "problem-1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vikas Singh",
+  "license": "ISC",
+  "dependencies": {
+    "readline-sync": "^1.4.9"
+  }
+}
