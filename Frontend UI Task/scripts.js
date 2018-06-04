@@ -88,8 +88,6 @@ $(document).ready(function(){
 
       }
 
-
-
       }else {
         alert("Please enter Image URL and Description");
       }
@@ -121,7 +119,7 @@ refreshImages(getImgRecords());
 
 //search function
 
-$('#searchBar').on('keyup', function(){
+$('#searchBar').on('keyup change paste', function(){
   let searchString = $('#searchBar').val();
 console.log(`searchString: ${searchString}`);
   if (searchString.length === 0)
