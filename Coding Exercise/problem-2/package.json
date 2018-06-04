@@ -1,0 +1,14 @@
+{
+  "name": "problem-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "problem-2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vikas Singh",
+  "license": "ISC",
+  "dependencies": {
+    "readline-sync": "^1.4.9"
+  }
+}
