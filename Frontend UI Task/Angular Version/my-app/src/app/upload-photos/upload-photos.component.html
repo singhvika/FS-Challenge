@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 card">
+      <div class="row card-header bg-primary text-white">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+          Infinite Image Uploads
+        </div>
+
+        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4 text-right">
+          Add Images
+          <button type="button" (click)="openModal(template)" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-js-ripple-effect">
+              <i class="material-icons">add</i>
+          </button>
+        </div>
+      </div>
+
+      <div class="row card-body">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 mx-auto">
+          <input type="text" class="form-control" placeholder="Search by description" #searchBarId 
+          (keyup)="searchBar(searchBarId.value)" (change)="searchBar(searchBarId.value)" (paste)="searchBar(searchBarId.value)" />
+        </div>
+      </div>
+
+      <div  id="imgs" class="row card-body">
+        <div *ngFor = "let img of images"class="card col-xs-3 col-sm-3 col-md-3 col-lg-3 no-gutters" >
+          <img [src]="img.url" class="card-img-top" alt="Cinque Terre">
+            <div class="card-body">
+              <p class="card-text">{{img.desc}}</p>
+              <a [href]="img.url" class="btn btn-primary">Original Picture</a>
+              <button (click)="deleteImage(img.url)" name="imgDeleteButton" class="btn btn-danger deleteImg">Delete</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+<!-- popup modal window for adding new images -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title">Enter a valid image url</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="imgUrl">Enter img url</label>
+        <input type="text" class="form-control" #imgUrl/>
+
+        <label for="imgDesc">Enter img description</label>
+        <input type="text" class="form-control" #imgDesc/>
+      </div>
+      <div class="alert alert-success " id="addSuccess" style="display:none">
+        <strong>Success!</strong> Your image has been added
+      </div>
+      <div class="alert alert-danger " id="addFailure" style="display:none">
+        <strong>Oops!</strong> Image with same URL already exists
+      </div>
+    </div>
+
+  <div class="modal-footer">
+      <button type="button" class="btn btn-success" id="addImageButton" (click)="add(imgUrl.value, imgDesc.value)">Add Image</button>
+      <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Close</button>
+  </div>
+</ng-template>
+
+
