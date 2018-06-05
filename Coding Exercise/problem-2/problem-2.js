@@ -5,7 +5,7 @@ let numberOfStrings;
 
 String.prototype.XyloHack =  function (numberOfStrings) {
 
-  
+
   if (numberOfStrings%2===0)
   {
     console.log(this.toLowerCase());
@@ -29,7 +29,7 @@ const matchRegex2 = new RegExp(/\(\d*\)$/)
 
  while (stringArray.length!== numberOfStrings)
  {
-  let stringLine = readlineSync.question('');
+  let stringLine = readlineSync.question("Enter Stringin the pattern '*'.XyloHack(n) :");
 
   // console.log(`stringLine: ${stringLine}`);
   if (inputRegex.test(stringLine))

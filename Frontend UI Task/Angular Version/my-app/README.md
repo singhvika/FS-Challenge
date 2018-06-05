@@ -1,5 +1,7 @@
 # MyApp
-
+This is the Angular version of the UI Challenge.
+In this folder. use the following command to run the server with app: ng serve
+then open localhost:4200 in your browser
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
 ## Development server
